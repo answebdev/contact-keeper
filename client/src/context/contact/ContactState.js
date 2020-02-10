@@ -11,6 +11,7 @@ import {
   FILTER_CONTACTS,
   CLEAR_FILTER
 } from '../types';
+import contactContext from './contactContext';
 
 const ContactState = props => {
   const initialState = {
@@ -42,6 +43,10 @@ const ContactState = props => {
   const [state, dispatch] = useReducer(contactReducer, initialState);
 
   // Add Contact
+  const addContact = contact => {
+    contact.id = uuid.v4();
+    dispatch({ type: ADD_CONTACT, payload: contact });
+  };
 
   // Delete Contact
 
@@ -58,7 +63,8 @@ const ContactState = props => {
   return (
     <ContactContext.Provider
       value={{
-        contacts: state.contacts
+        contacts: state.contacts,
+        addContact
       }}
     >
       {props.children}
